@@ -34,11 +34,26 @@ export class Service {
     try {
       return await this.databases.listDocuments(
         conf.appwriteDatabaseId,
-        conf.appwriteCollectionId,
-        []
+        conf.appwriteCollectionId
       );
     } catch (error) {
       console.log("Appwrite Service :: getJokes :: error", error);
+      return [];
+    }
+  }
+
+  // Delete joke from database
+  async deleteJoke(jokeId) {
+    try {
+      return await this.databases.deleteDocument(
+        conf.appwriteDatabaseId,
+        conf.appwriteCollectionId,
+        jokeId
+      );
+      return true;
+    } catch (error) {
+      console.log("Appwrite Service :: deleteJoke :: error", error);
+      return false;
     }
   }
 }
