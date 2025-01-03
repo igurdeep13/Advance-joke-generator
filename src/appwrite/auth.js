@@ -43,12 +43,19 @@ export class AuthService {
     try {
       return await this.account.get();
     } catch (error) {
-      throw error;
+      console.log("Appwrite Service :: getCurrentUser :: error", error);
     }
     return null;
   }
 
-  a;
+  async logout() {
+    try {
+      await this.account.deleteSessions();
+    } catch (error) {
+      console.log("Appwrite Service :: logout :: error", error);
+    }
+    return null;
+  }
 }
 
 const authService = new AuthService();
