@@ -11,7 +11,11 @@ function LogoutBtn() {
       dispatch(logout());
     });
   };
-  return <div>LogoutBtn</div>;
+  return (
+    <button className="" onClick={logoutHandler}>
+      Logout
+    </button>
+  );
 }
 
 export default LogoutBtn;
