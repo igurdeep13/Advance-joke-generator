@@ -1,20 +1,39 @@
-import { useState } from "react";
-import Button from "./components/Button";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import authService from "./appwrite/auth";
+import { login, logout } from "./store/authSlice";
+import { Header, Footer } from "./components";
+import { Outlet } from "react-router-dom";
+
 function App() {
-  const [count, setCount] = useState(0);
+  const [loading, setLoading] = useState(true);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    authService
+      .getCurrentUser()
+      .then((userData) => {
+        if (userData) {
+          dispatch(login(userData));
+        } else {
+          dispatch(logout());
+        }
+      })
+      .finally(() => setLoading(false));
+  }, []);
 
   return (
     <>
-      <div class="flex justify-center items-center h-screen bg-gray-300">
-        <div class="h-1/2 w-2/5 bg-slate-600 rounded-xl flex justify-center items-center flex-col p-6 gap-6">
-          <div class="text-white text-center ">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ratione
-            asperiores similique adipisci vero, cumque quasi maiores magni neque
-            dolorem earum!
+      {!loading ? (
+        <div className="min-h-screen flex flex-wrap content-between bg-gray-400">
+          <div className="w-full block">
+            <Header />
+            <main>{/* <Outlet /> */}</main>
+            <Footer />
           </div>
-          <Button />
         </div>
-      </div>
+      ) : null}
     </>
   );
 }
