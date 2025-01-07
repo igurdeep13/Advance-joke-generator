@@ -25,7 +25,55 @@ function Signup() {
       setError(error.message);
     }
   };
-  return <div>Signup</div>;
+  return (
+    <div className="">
+      <div className="">
+        <h2>Sign in to your create an account</h2>
+        <p className="">
+          Already have an account?
+          <Link to="/login" className="">
+            Signup
+          </Link>
+        </p>
+        {error && <p className="">{error}</p>}
+        <form onSubmit={handleSubmit(create)}>
+          <div>
+            <Input
+              label="Full Name: "
+              placeHolder="Enter your full name"
+              {...register("name", {
+                required: true,
+              })}
+            />
+            <Input
+              label="Email: "
+              placeholder="Enter your email"
+              type="email"
+              {...register("email", {
+                required: true,
+                validate: {
+                  matchPatern: (value) =>
+                    /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) ||
+                    "Email address must be a valid address",
+                },
+              })}
+            />
+            <Input
+              label="Password: "
+              type="password"
+              placeHolder="Enter your password"
+              {...register("password", {
+                required: true,
+              })}
+            />
+            <Button type="Submit" className="">
+              Create Account
+            </Button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
 }
 
 export default Signup;
